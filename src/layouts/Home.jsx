@@ -7,7 +7,8 @@ function Home() {
     <div style={{ textAlign: "center", marginTop: "50px" }}>
       <h1>Bienvenido</h1>
       <button onClick={() => navigate("/login")} style={{ color: "white" }}>Iniciar Sesión</button>
-      <button onClick={() => navigate("/registro")} style={{ color: "white" }}>Registrarse</button>
+      <h2>¿No tienes una cuenta?</h2>
+      <button onClick={() => navigate("/registro")} style={{ color: "white" }}>Registrate</button>
     </div>
   );
 }
