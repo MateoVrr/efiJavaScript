@@ -18,21 +18,14 @@ export default function Login() {
 
     const handleSubmit = async (values, {resetForm}) => {
         try {
-            // 🔹 Simulación de API (por ahora sin backend)
-            // Cuando tengas tu API, reemplaza la URL y lógica
             const response = await fetch('http://localhost:5000/login', {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(values)
             })
 
-            // 🔹 Simulación de respuesta con JWT si no hay API
-            // const data = { token: "jwt-de-prueba-12345" }
-            // localStorage.setItem("token", data.token)
-
             if(response.ok) {
                 const data = await response.json()
-                // Guardar el JWT en localStorage
                 localStorage.setItem("token", data.token)
                 toast.success("Login exitoso")
                 resetForm()
