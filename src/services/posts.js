@@ -1,4 +1,4 @@
-const API = "http://localhost:5000"; // cambiá la URL según tu backend
+const API = "http://localhost:5000"; 
 
 export async function getPosts(token) {
   const res = await fetch(`${API}/posts`, {

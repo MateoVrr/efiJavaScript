@@ -68,7 +68,7 @@ const PostsList = () => {
     <Button
       icon="pi pi-comment"
       label="Crear Review"
-      onClick={() => navigate(`/posts/${row.id}/reviews/nueva`)} // ✅ ID dinámico
+      onClick={() => navigate(`/posts/${row.id}/reviews/nueva`)} 
       className="p-button-success p-button-sm"
     />
   </div>

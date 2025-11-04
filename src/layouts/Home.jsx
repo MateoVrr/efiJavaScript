@@ -10,8 +10,8 @@ function Home() {
       {user ? (
         <>
           <h1>Bienvenido, {user.name}</h1>
-          <p>Email: {user.email}</p>
-          <p>Rol: {user.role}</p>
+          <button onClick={() => navigate("/crear-post")} style={{ color: "white" }}>Postea Algo</button>
+
           <button onClick={logout} style={{ color: "white" }}>Cerrar Sesión</button>
         </>
       ) : (
@@ -26,4 +26,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Home

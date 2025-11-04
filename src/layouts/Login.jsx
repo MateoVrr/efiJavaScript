@@ -12,7 +12,7 @@ const validationSchema = Yup.object({
   password: Yup.string().required("La contraseña es obligatoria"),
 });
 
-export default function Login() {
+function Login() {
   const navigate = useNavigate();
   const { saveToken } = useAuth();
 
@@ -67,3 +67,5 @@ export default function Login() {
     </div>
   );
 }
+
+export default Login

@@ -1,4 +1,3 @@
-// src/layouts/CrearPost.jsx
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
 import { Card } from "primereact/card"
@@ -39,7 +38,7 @@ function CrearPost() {
         })
         toast.success("Post creado correctamente")
         resetForm()
-        setTimeout(() => navigate("/posts"), 2000)
+        navigate("/posts")
       } else {
         toast.error("Error al crear el post")
       }
@@ -48,6 +47,7 @@ function CrearPost() {
     }
   }
 
+  
   return (
     <div className="posts-container">
       <Card title="Crear nuevo Post" className="posts-card">

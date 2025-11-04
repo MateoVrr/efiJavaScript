@@ -22,7 +22,7 @@ const roles = [
     { label: 'Administrador', value: 'admin' }
 ]
 
-export default function Registro(){
+function Registro(){
 
     const navigate = useNavigate()
 
@@ -89,3 +89,5 @@ export default function Registro(){
         </div>
     )
 }
+
+export default Registro

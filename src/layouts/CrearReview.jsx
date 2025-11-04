@@ -14,7 +14,7 @@ const validationSchema = Yup.object({
 
 function CrearReview() {
   const navigate = useNavigate()
-  const { id } = useParams() // 👈 obtenemos el ID del post
+  const { id } = useParams() 
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
@@ -22,7 +22,7 @@ function CrearReview() {
 
       const body = {
         content: values.content,
-        post_id: Number(id), // 👈 usamos el id real del post
+        post_id: Number(id), 
       }
 
       const response = await fetch("http://localhost:5000/reviews", {
