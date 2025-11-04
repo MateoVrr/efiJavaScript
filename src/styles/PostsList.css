@@ -1,0 +1,39 @@
+.posts-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.posts-card {
+  width: 100%;
+  max-width: 900px;
+  padding: 1rem;
+}
+
+.posts-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.posts-table th, .posts-table td {
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  padding: 0.6rem;
+}
+
+.posts-table th {
+  background-color: #f5f5f5;
+}
+
+.no-data {
+  text-align: center;
+  color: #888;
+  padding: 1rem;
+}
+
+.posts-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
