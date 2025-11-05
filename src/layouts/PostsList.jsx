@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom"
 import Swal from "sweetalert2"
 import { getPosts, deletePost } from "../services/posts"
 import "../styles/PostsList.css"
+import CrearPost from "./CrearPost"
 
 const PostsList = () => {
   const [posts, setPosts] = useState([])
@@ -76,11 +77,12 @@ const PostsList = () => {
 
   return (
     <div className="posts-container">
+
+      <CrearPost />
+
       <Card title="Listado de Posts" className="posts-card">
         <div className="posts-actions">
           <Button label="Refrescar" onClick={cargarPosts} />
-          <Button label="Crear Post" onClick={() => navigate("/crear-post")} />
-          <Button label="Volver al Inicio" onClick={() => navigate("/")} />
         </div>
 
         <DataTable
@@ -88,7 +90,7 @@ const PostsList = () => {
           className="posts-table"
           emptyMessage={<p className="no-data">No hay posts registrados</p>}
         >
-          <Column field="id" header="ID" />
+          <Column header="" />
           <Column field="title" header="Título" />
           <Column field="content" header="Contenido" />
           <Column field="author" header="Autor" />
@@ -96,6 +98,7 @@ const PostsList = () => {
           <Column header="Acciones" body={accionesTemplate} />
         </DataTable>
       </Card>
+    
     </div>
   )
 }

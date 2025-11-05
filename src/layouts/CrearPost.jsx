@@ -38,7 +38,6 @@ function CrearPost() {
         })
         toast.success("Post creado correctamente")
         resetForm()
-        navigate("/posts")
       } else {
         toast.error("Error al crear el post")
       }
@@ -75,12 +74,7 @@ function CrearPost() {
                   type="submit"
                   label={isSubmitting ? "Creando..." : "Crear Post"}
                 />
-                <Button
-                  type="button"
-                  label="Volver"
-                  onClick={() => navigate("/posts")}
-                  className="p-button-secondary"
-                />
+              
               </div>
             </Form>
           )}

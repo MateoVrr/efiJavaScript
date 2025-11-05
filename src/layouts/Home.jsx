@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import PostsList from "./PostsList";
 
 function Home() {
   const navigate = useNavigate();
@@ -10,8 +11,7 @@ function Home() {
       {user ? (
         <>
           <h1>Bienvenido, {user.name}</h1>
-          <button onClick={() => navigate("/crear-post")} style={{ color: "white" }}>Postea Algo</button>
-
+          <PostsList/>
           <button onClick={logout} style={{ color: "white" }}>Cerrar Sesión</button>
         </>
       ) : (

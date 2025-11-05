@@ -6,7 +6,7 @@ import Login from './layouts/Login'
 import ReviewsList from './layouts/ReviewsList'
 import PostsList from './layouts/PostsList'
 import CrearReview from './layouts/CrearReview'
-import CrearPost from './layouts/CrearPost'
+import EditarPost from "./layouts/EditarPost"
 
 function App() {
 
@@ -18,8 +18,8 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/posts' element={<PostsList/>}/>
         <Route path='/reviews' element={<ReviewsList/>}/>
-        <Route path='/crear-post' element={<CrearPost/>}/>
         <Route path='/posts/:id/reviews/nueva' element={<CrearReview/>}/>
+        <Route path="/editar-post/:id" element={<EditarPost />} />
 
       </Routes>
     </>
