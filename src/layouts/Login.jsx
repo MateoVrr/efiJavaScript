@@ -52,7 +52,7 @@ function Login() {
 
   return (
     <div className="login-container">
-      <h2>Iniciar Sesión</h2>
+      <h2 className="login-title">Iniciar Sesión</h2>
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={validationSchema}
@@ -61,7 +61,7 @@ function Login() {
         {({ isSubmitting }) => (
           <Form className="login-form">
             <div className="form-field">
-              <label htmlFor="email">Email</label>
+              <label htmlFor="email" className="form-label">Email</label>
               <Field
                 as={InputText}
                 id="email"
@@ -72,13 +72,14 @@ function Login() {
             </div>
 
             <div className="form-field">
-              <label htmlFor="password">Contraseña</label>
+              <label htmlFor="password"className="form-label">Contraseña</label>
               <Field
                 as={InputText}
                 id="password"
                 type="password"
                 name="password"
-                placeholder=""
+                placeholder="Ingrese su contraseña"
+                className="form-input"
               />
               <ErrorMessage name="password" component="small" className="error" />
             </div>
@@ -87,13 +88,14 @@ function Login() {
               <Button
                 type="submit"
                 label={isSubmitting ? "Ingresando..." : "Ingresar"}
+                className="p-button-rounded p-button-primary"
                 disabled={isSubmitting}
               />
 
               <Button
                   type="button"
                   label="Volver al inicio"
-                  className="p-button-secondary"
+                  className="p-button-rounded p-button-secondary"
                   onClick={() => navigate("/")}
              />
              

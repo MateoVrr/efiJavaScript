@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import "../styles/Home.css"; 
 
 function Home() {
   const navigate = useNavigate();
@@ -13,18 +14,22 @@ function Home() {
   }, [user, navigate]);
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
+    <div className="home-container">
       {!user ? (
         <>
-          <h1>Bienvenido</h1>
+          <h1 className="home-title">Bienvenido</h1>
+
           <button
+          className="home-button"
             onClick={() => navigate("/login")}
-            style={{ color: "white" }}
+            
           >
             Iniciar Sesión
           </button>
+
           <h2>¿No tienes una cuenta?</h2>
           <button
+          className="home-button home-register"
             onClick={() => navigate("/registro")}
             style={{ color: "white" }}
           >

@@ -1,27 +1,95 @@
+body {
+  background-color: #1e1e1e;
+  font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* Contenedor principal */
 .login-container {
-    max-width: 400px;
-    margin: 5rem auto;
-    padding: 2rem;
-    background-color: #454444cc;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    text-align: center;
+  max-width: 400px;
+  margin: 5rem auto;
+  padding: 2.5rem;
+  background: rgba(40, 40, 40, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  backdrop-filter: blur(6px);
+  color: #8496c7;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+
+
+/* Título */
+.login-container h2 {
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Formulario */
 .login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
 }
 
-.form-field{
-    display: flex;
-    flex-direction: column;
-    text-align: left;
+/* Campos */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
 }
 
+.form-field label {
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+  color: #cccccc;
+}
+
+/* Inputs PrimeReact */
+.p-inputtext {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #646cff;
+  padding: 0.7rem;
+  transition: all 0.2s ease;
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
+
+.p-inputtext:focus {
+  outline: none;
+  border-color: #8a8dff;
+  box-shadow: 0 0 5px #8a8dff;
+}
+
+/* Acciones (botones) */
+.login-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.p-button {
+  border-radius: 10px;
+  font-weight: 500;
+  padding: 0.8rem 1.5rem;
+}
+
+.p-button-secondary {
+  background-color: #444 !important;
+  border: none !important;
+  color: #fff !important;
+  margin-left: 20px;
+}
+
+.p-button-secondary:hover {
+  background-color: #5a5a5a !important;
+}
+
+/* Errores */
 .error {
-    color: #d32f2f;
-    font-size: 0.8rem;
-    
+  color: #ff6b6b;
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
 }
