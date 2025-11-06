@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"
+
 
 const AuthContext = createContext(null);
 
@@ -15,6 +16,7 @@ export const AuthProvider = ({ children }) => {
         email: decoded.email,
         role: decoded.role,
         exp: decoded.exp,
+        id: decoded.id
       };
     } catch {
       return null;
@@ -30,6 +32,7 @@ export const AuthProvider = ({ children }) => {
       email: decoded.email,
       role: decoded.role,
       exp: decoded.exp,
+      id: decoded.id
     });
   };
 
@@ -39,11 +42,28 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+    useEffect(() => {
+    if (user?.exp && user.exp < Math.floor(Date.now() / 1000)) {
+      logout();
+    }
+  }, [user]);
+
   useEffect(() => {
     if (user?.exp && user.exp < Math.floor(Date.now() / 1000)) {
       logout();
     }
   }, [user]);
+
+
+  useEffect(() => {
+    if (!token) return;
+    try {
+      const decoded = jwtDecode(token);
+      if (decoded.exp < Math.floor(Date.now() / 1000)) logout();
+    } catch {
+      logout();
+    }
+  }, [token]);
 
   return (
     <AuthContext.Provider value={{ token, user, saveToken, logout }}>

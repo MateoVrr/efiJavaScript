@@ -2,10 +2,13 @@ import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
 import { Card } from "primereact/card"
 import { InputText } from "primereact/inputtext"
+import { InputTextarea } from "primereact/inputtextarea"
 import { Button } from "primereact/button"
 import { toast } from "react-toastify"
 import Swal from "sweetalert2"
 import { useNavigate } from "react-router-dom"
+import { useAuth } from "../context/AuthContext"
+import { createPost } from "../services/posts"
 import "../styles/PostsList.css"
 
 const validationSchema = Yup.object({
@@ -13,23 +16,26 @@ const validationSchema = Yup.object({
   content: Yup.string().required("El contenido es obligatorio"),
 })
 
-function CrearPost() {
+function CrearPost({ autoRedirect = true, onPostCreado }) {
   const navigate = useNavigate()
+  const { user } = useAuth()
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
       const token = localStorage.getItem("token")
+      if (!token) {
+        toast.error("No estás autenticado. Iniciá sesión para crear un post.")
+        navigate("/login")
+        return
+      }
 
-      const response = await fetch("http://localhost:5000/posts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(values),
+  
+      const response = await createPost(token, {
+        ...values,
+        author: user?.name || "Anónimo",
       })
 
-      if (response.ok) {
+      if (response && !response.error) {
         Swal.fire({
           title: "Post creado con éxito",
           icon: "success",
@@ -37,16 +43,23 @@ function CrearPost() {
           showConfirmButton: false,
         })
         toast.success("Post creado correctamente")
+
+        if (onPostCreado) onPostCreado()
+
         resetForm()
+        
+        if (autoRedirect) {
+          setTimeout(() => navigate("/posts"), 2000)
+        }
       } else {
         toast.error("Error al crear el post")
       }
     } catch (error) {
+      console.error(error)
       toast.error("Error en el servidor")
     }
   }
 
-  
   return (
     <div className="posts-container">
       <Card title="Crear nuevo Post" className="posts-card">
@@ -65,7 +78,13 @@ function CrearPost() {
 
               <div className="form-field">
                 <label htmlFor="content">Contenido</label>
-                <Field as={InputText} id="content" name="content" />
+                <Field
+                  as={InputTextarea}
+                  id="content"
+                  name="content"
+                  rows={5}
+                  autoResize
+                />
                 <ErrorMessage name="content" component="small" className="error" />
               </div>
 
@@ -73,8 +92,8 @@ function CrearPost() {
                 <Button
                   type="submit"
                   label={isSubmitting ? "Creando..." : "Crear Post"}
+                  disabled={isSubmitting}
                 />
-              
               </div>
             </Form>
           )}

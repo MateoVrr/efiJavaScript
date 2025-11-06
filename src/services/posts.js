@@ -1,8 +1,9 @@
-const API = "http://localhost:5000"; 
+const API = "http://localhost:5000";
 
 export async function getPosts(token) {
   const res = await fetch(`${API}/posts`, {
     headers: {
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
     }
   });
@@ -21,6 +22,17 @@ export async function createPost(token, data) {
   return res.json();
 }
 
+export async function deletePost(token, id) {
+  const res = await fetch(`${API}/posts/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
+  });
+  return res.json();
+}
+
 export async function updatePost(token, id, data) {
   const res = await fetch(`${API}/posts/${id}`, {
     method: "PUT",
@@ -29,16 +41,6 @@ export async function updatePost(token, id, data) {
       Authorization: `Bearer ${token}`
     },
     body: JSON.stringify(data)
-  });
-  return res.json();
-}
-
-export async function deletePost(token, id) {
-  const res = await fetch(`${API}/posts/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
   });
   return res.json();
 }

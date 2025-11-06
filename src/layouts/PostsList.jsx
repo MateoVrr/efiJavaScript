@@ -13,19 +13,26 @@ const PostsList = () => {
   const [posts, setPosts] = useState([])
   const navigate = useNavigate()
 
+ 
   const cargarPosts = async () => {
-    const token = localStorage.getItem("token")
-    const data = await getPosts(token)
-    setPosts(data)
+    try {
+      const token = localStorage.getItem("token")
+      if (!token) return
+      const data = await getPosts(token)
+      setPosts(data || [])
+    } catch (error) {
+      console.error("Error cargando posts:", error)
+    }
   }
 
   useEffect(() => {
     cargarPosts()
   }, [])
 
+  
   const borrarPost = async (id) => {
     Swal.fire({
-      title: "¿Seguro que quieres eliminar el post?",
+      title: "¿Seguro que quieres eliminar este post?",
       text: "Esta acción no se puede deshacer",
       icon: "warning",
       showCancelButton: true,
@@ -33,64 +40,62 @@ const PostsList = () => {
       cancelButtonText: "Cancelar",
     }).then(async (action) => {
       if (action.isConfirmed) {
-        const token = localStorage.getItem("token")
-        await deletePost(token, id)
-        cargarPosts()
-        Swal.fire("Eliminado", "El post fue eliminado correctamente", "success")
+        try {
+          const token = localStorage.getItem("token")
+          await deletePost(token, id)
+          await cargarPosts()
+          Swal.fire("Eliminado", "El post fue eliminado correctamente", "success")
+        } catch (error) {
+          Swal.fire("Error", "No se pudo eliminar el post", "error")
+        }
       }
     })
   }
 
+ 
   const fechaTemplate = (row) => {
-    const date = new Date(row?.date)
+    if (!row?.date) return "-"
+    const date = new Date(row.date)
     return (
       <Fragment>
-        {date
-          ? `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
-          : row?.date}
+        {`${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`}
       </Fragment>
     )
   }
 
+  
   const accionesTemplate = (row) => (
-  <div style={{ display: "flex", gap: "0.5rem" }}>
-    <Button
-      icon="pi pi-trash"
-      label="Eliminar"
-      onClick={() => borrarPost(row.id)}
-      className="p-button-danger p-button-sm"
-    />
-    <Button
-      icon="pi pi-pencil"
-      label="Editar"
-      onClick={() => navigate(`/editar-post/${row.id}`)}
-      className="p-button-secondary p-button-sm"
-    />
-    <Button
-      icon="pi pi-comment"
-      label="Crear Review"
-      onClick={() => navigate(`/posts/${row.id}/reviews/nueva`)} 
-      className="p-button-success p-button-sm"
-    />
-  </div>
-)
+    <div style={{ display: "flex", gap: "0.5rem" }}>
+      <Button
+        icon="pi pi-trash"
+        label="Eliminar"
+        onClick={() => borrarPost(row.id)}
+        className="p-button-danger p-button-sm"
+      />
+      <Button
+        icon="pi pi-pencil"
+        label="Editar"
+        onClick={() => navigate(`/editar-post/${row.id}`)}
+        className="p-button-secondary p-button-sm"
+      />
+      <Button
+        icon="pi pi-comment"
+        label="Crear Review"
+        onClick={() => navigate(`/posts/${row.id}/reviews/nueva`)}
+        className="p-button-success p-button-sm"
+      />
+    </div>
+  )
 
   return (
     <div className="posts-container">
-
-      <CrearPost />
-
+      <CrearPost autoRedirect={false} onPostCreado={cargarPosts} />
       <Card title="Listado de Posts" className="posts-card">
-        <div className="posts-actions">
-          <Button label="Refrescar" onClick={cargarPosts} />
-        </div>
-
         <DataTable
           value={posts}
           className="posts-table"
           emptyMessage={<p className="no-data">No hay posts registrados</p>}
         >
-          <Column header="" />
           <Column field="title" header="Título" />
           <Column field="content" header="Contenido" />
           <Column field="author" header="Autor" />
@@ -98,7 +103,6 @@ const PostsList = () => {
           <Column header="Acciones" body={accionesTemplate} />
         </DataTable>
       </Card>
-    
     </div>
   )
 }

@@ -1,10 +1,8 @@
-const API = "http://localhost:5000"; // cambiá si tu backend usa otra URL
+const API = "http://localhost:5000";
 
 export async function getReviews(token) {
   const res = await fetch(`${API}/reviews`, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
+    headers: { Authorization: `Bearer ${token}` }
   });
   return res.json();
 }
@@ -36,9 +34,7 @@ export async function updateReview(token, id, data) {
 export async function deleteReview(token, id) {
   const res = await fetch(`${API}/reviews/${id}`, {
     method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
+    headers: { Authorization: `Bearer ${token}` }
   });
   return res.json();
 }

@@ -1,20 +1,23 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { InputText } from "primereact/inputtext";
-import { Button } from "primereact/button";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import "../styles/Login.css";
+import { Formik, Form, Field, ErrorMessage } from "formik"
+import * as Yup from "yup"
+import { InputText } from "primereact/inputtext"
+import { Button } from "primereact/button"
+import { toast } from "react-toastify"
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "../context/AuthContext"
+import Swal from "sweetalert2"
+import "../styles/Login.css"
 
 const validationSchema = Yup.object({
-  email: Yup.string().email("Email inválido").required("El email es obligatorio"),
+  email: Yup.string()
+    .email("Email inválido")
+    .required("El email es obligatorio"),
   password: Yup.string().required("La contraseña es obligatoria"),
-});
+})
 
 function Login() {
-  const navigate = useNavigate();
-  const { saveToken } = useAuth();
+  const navigate = useNavigate()
+  const { saveToken } = useAuth()
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
@@ -22,21 +25,30 @@ function Login() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
-      });
+      })
 
       if (response.ok) {
-        const data = await response.json();
-        saveToken(data.access_token);
-        toast.success("Login exitoso");
-        resetForm();
-        setTimeout(() => navigate("/"), 1500);
+        const data = await response.json()
+
+        saveToken(data.access_token)
+        toast.success("Inicio de sesión exitoso")
+        Swal.fire({
+          title: "Bienvenido ",
+          text: "Inicio de sesión exitoso",
+          icon: "success",
+          timer: 1800,
+          showConfirmButton: false,
+        })
+
+        resetForm()
+        setTimeout(() => navigate("/"), 1800)
       } else {
-        toast.error("Usuario o contraseña incorrectos");
+        Swal.fire("Error", "Usuario o contraseña incorrectos", "error")
       }
-    } catch {
-      toast.error("Error de conexión con el servidor");
+    } catch (error) {
+      toast.error("Error al conectar con el servidor")
     }
-  };
+  }
 
   return (
     <div className="login-container">
@@ -49,23 +61,48 @@ function Login() {
         {({ isSubmitting }) => (
           <Form className="login-form">
             <div className="form-field">
-              <label>Email</label>
-              <Field as={InputText} name="email" />
+              <label htmlFor="email">Email</label>
+              <Field
+                as={InputText}
+                id="email"
+                name="email"
+                placeholder="tu@email.com"
+              />
               <ErrorMessage name="email" component="small" className="error" />
             </div>
 
             <div className="form-field">
-              <label>Contraseña</label>
-              <Field as={InputText} type="password" name="password" />
+              <label htmlFor="password">Contraseña</label>
+              <Field
+                as={InputText}
+                id="password"
+                type="password"
+                name="password"
+                placeholder=""
+              />
               <ErrorMessage name="password" component="small" className="error" />
             </div>
 
-            <Button type="submit" label={isSubmitting ? "Ingresando..." : "Ingresar"} />
+            <div className="login-actions">
+              <Button
+                type="submit"
+                label={isSubmitting ? "Ingresando..." : "Ingresar"}
+                disabled={isSubmitting}
+              />
+
+              <Button
+                  type="button"
+                  label="Volver al inicio"
+                  className="p-button-secondary"
+                  onClick={() => navigate("/")}
+             />
+             
+            </div>
           </Form>
         )}
       </Formik>
     </div>
-  );
+  )
 }
 
 export default Login

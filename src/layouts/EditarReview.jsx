@@ -1,23 +1,22 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { Card } from "primereact/card"
-import { InputText } from "primereact/inputtext"
 import { InputTextarea } from "primereact/inputtextarea"
+import { InputNumber } from "primereact/inputnumber"
 import { Button } from "primereact/button"
 import Swal from "sweetalert2"
-import { updatePost } from "../services/posts"
-import "../styles/EditarPost.css"
+import { updateReview } from "../services/reviews"
+import "../styles/EditarPost.css" 
 
-function EditarPost() {
+function EditarReview() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const [title, setTitle] = useState("")
-  const [content, setContent] = useState("")
+  const [comment, setComment] = useState("")
+  const [rating, setRating] = useState(null)
   const [loading, setLoading] = useState(false)
 
-
   useEffect(() => {
-    const cargarPost = async () => {
+    const cargarReview = async () => {
       const token = localStorage.getItem("token")
       if (!token) {
         Swal.fire("Error", "No estás autenticado", "error")
@@ -26,22 +25,22 @@ function EditarPost() {
       }
 
       try {
-        const res = await fetch(`http://localhost:5000/posts/${id}`, {
+        const res = await fetch(`http://localhost:5000/reviews/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
 
-        if (!res.ok) throw new Error("Error al cargar el post")
+        if (!res.ok) throw new Error("Error al cargar la review")
 
         const data = await res.json()
-        setTitle(data.title)
-        setContent(data.content)
+        setComment(data.comment || "")
+        setRating(data.rating || null)
       } catch (err) {
-        Swal.fire("Error", "No se pudo cargar el post", "error")
-        navigate("/posts")
+        Swal.fire("Error", "No se pudo cargar la review", "error")
+        navigate("/reviews")
       }
     }
 
-    cargarPost()
+    cargarReview()
   }, [id, navigate])
 
   const guardarCambios = async () => {
@@ -52,18 +51,18 @@ function EditarPost() {
       return
     }
 
-    if (!title.trim() || !content.trim()) {
+    if (!comment.trim() || rating == null) {
       Swal.fire("Error", "Completa todos los campos antes de guardar", "warning")
       return
     }
 
     setLoading(true)
     try {
-      await updatePost(token, id, { title, content })
-      Swal.fire("Guardado", "El post fue actualizado correctamente", "success")
-      navigate("/posts")
+      await updateReview(token, id, { comment, rating })
+      Swal.fire("Guardado", "La review fue actualizada correctamente", "success")
+      navigate("/reviews")
     } catch {
-      Swal.fire("Error", "No se pudo guardar el post", "error")
+      Swal.fire("Error", "No se pudo guardar la review", "error")
     } finally {
       setLoading(false)
     }
@@ -71,24 +70,15 @@ function EditarPost() {
 
   return (
     <div className="editarpost-container">
-      <Card title="Editar Post" className="editarpost-card">
+      <Card title="Editar Review" className="editarpost-card">
         <div className="form-field">
-          <label htmlFor="title">Título</label>
-          <InputText
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
-
-        <div className="form-field">
-          <label htmlFor="content">Contenido</label>
+          <label htmlFor="comment">Comentario</label>
           <InputTextarea
-            id="content"
+            id="comment"
             rows={5}
             autoResize
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
           />
         </div>
 
@@ -101,7 +91,7 @@ function EditarPost() {
           <Button
             label="Cancelar"
             className="p-button-secondary"
-            onClick={() => navigate("/posts")}
+            onClick={() => navigate("/reviews")}
           />
         </div>
       </Card>
@@ -109,4 +99,4 @@ function EditarPost() {
   )
 }
 
-export default EditarPost
+export default EditarReview

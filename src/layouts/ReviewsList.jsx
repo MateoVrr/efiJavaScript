@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Card } from "primereact/card"
 import { Button } from "primereact/button"
 import { DataTable } from "primereact/datatable"
@@ -60,20 +60,14 @@ const ReviewsList = () => {
   return (
     <div className="posts-container">
       <Card title="Listado de Reviews" className="posts-card">
-        <div className="posts-actions">
-          <Button label="Refrescar" onClick={cargarReviews} />
-          <Button label="Crear Review" onClick={() => navigate("/crear-review")} />
-          <Button label="Volver al Inicio" onClick={() => navigate("/")} />
-        </div>
-
         <DataTable
           value={reviews}
           className="posts-table"
           emptyMessage={<p className="no-data">No hay reviews registradas</p>}
         >
-          <Column field="id" header="ID" />
-          <Column field="content" header="Contenido" />
-          <Column field="post_id" header="Post ID" />
+          <Column field="post_title" header="Título del Post" />
+          <Column field="post_author" header="Autor del Post" />
+          <Column field="comment" header="Comentario" />
           <Column header="Acciones" body={accionesTemplate} />
         </DataTable>
       </Card>
