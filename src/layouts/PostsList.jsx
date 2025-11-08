@@ -87,24 +87,52 @@ const PostsList = () => {
     </div>
   )
 
-  return (
-    <div className="posts-container">
-      <CrearPost autoRedirect={false} onPostCreado={cargarPosts} />
-      <Card title="Listado de Posts" className="posts-card">
-        <DataTable
-          value={posts}
-          className="posts-table"
-          emptyMessage={<p className="no-data">No hay posts registrados</p>}
-        >
-          <Column field="title" header="Título" />
-          <Column field="content" header="Contenido" />
-          <Column field="author" header="Autor" />
-          <Column header="Fecha" body={fechaTemplate} />
-          <Column header="Acciones" body={accionesTemplate} />
-        </DataTable>
-      </Card>
-    </div>
-  )
+return (
+<div className="list-section">
+  <Card title="Listado de Posts" className="posts-card">
+    {posts.length === 0 ? (
+      <p className="no-data">No hay posts registrados</p>
+    ) : (
+      <div className="post-grid">
+        {posts.map((post) => (
+          <div className="post-card" key={post.id}>
+            <h3>{post.title}</h3>
+            <p className="post-content">{post.content}</p>
+
+            <div className="post-footer">
+              <span className="post-author">✍️ {post.author}</span>
+              <span className="post-date">
+                📅 {new Date(post.date).toLocaleDateString()}
+              </span>
+            </div>
+
+            <div className="post-actions">
+              <Button
+                icon="pi pi-pencil"
+                label="Editar"
+                className="p-button-secondary p-button-sm"
+                onClick={() => navigate(`/editar-post/${post.id}`)}
+              />
+              <Button
+                icon="pi pi-trash"
+                label="Eliminar"
+                className="p-button-danger p-button-sm"
+                onClick={() => borrarPost(post.id)}
+              />
+              <Button
+                icon="pi pi-comment"
+                label="Crear Review"
+                className="p-button-success p-button-sm"
+                onClick={() => navigate(`/posts/${post.id}/reviews/nueva`)}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </Card>
+</div>
+)
 }
 
 export default PostsList

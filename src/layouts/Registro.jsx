@@ -11,8 +11,8 @@ import "../styles/Registro.css"
 
 const validationSchema = Yup.object({
   name: Yup.string()
-  .min(4, "El nombre es demasiado corto")
-  .required("El nombre es obligatorio"),
+    .min(4, "El nombre es demasiado corto")
+    .required("El nombre es obligatorio"),
   email: Yup.string()
     .email("Email inválido")
     .required("El email es obligatorio"),
@@ -40,7 +40,7 @@ function Registro() {
 
       if (response.ok) {
         Swal.fire({
-          title: "¡Registro exitoso! ",
+          title: "¡Registro exitoso!",
           text: "Tu cuenta ha sido creada correctamente",
           icon: "success",
           timer: 1800,
@@ -60,92 +60,92 @@ function Registro() {
   }
 
   return (
-    <div className="register-container">
-      <h2 className="register-title">Crear cuenta</h2>
-        <Formik
-          initialValues={{
-            name: "",
-            email: "",
-            password: "",
-            role: "",
-          }}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          {({ isSubmitting, setFieldValue, values }) => (
-            <Form className="register-form">
-              <div className="form-field">
-                <label htmlFor="name" className="form-label">Nombre</label>
-                <Field
-                  as={InputText}
-                  id="name"
-                  name="name"
-                  placeholder="Tu nombre completo"
-                  className="form-input"
-                />
-                <ErrorMessage name="name" component="small" className="error" />
-              </div>
+    <>
 
-              <div className="form-field">
-                <label htmlFor="email">Email</label>
-                <Field
-                  as={InputText}
-                  id="email"
-                  name="email"
-                  placeholder="tu@email.com"
-                  className="form-input"
-                />
-                <ErrorMessage name="email" component="small" className="error" />
-              </div>
+      <div className="register-container">
+        <Card className="register-card" title={<span className="register-title">Crear cuenta</span>}>
+          <Formik
+            initialValues={{
+              name: "",
+              email: "",
+              password: "",
+              role: "",
+            }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting, setFieldValue, values }) => (
+              <Form className="register-form">
+                <div className="form-field">
+                  <label htmlFor="name" className="form-label">Nombre</label>
+                  <Field
+                    as={InputText}
+                    id="name"
+                    name="name"
+                    placeholder="Tu nombre completo"
+                    className="form-input"
+                  />
+                  <ErrorMessage name="name" component="small" className="error" />
+                </div>
 
-              <div className="form-field">
-                <label htmlFor="password" className="form-label">Contraseña</label>
-                <Field
-                  as={InputText}
-                  id="password"
-                  type="password"
-                  name="password"
-                  placeholder="Ingrese su contraseña"
-                   className="form-input"
-                />
-                <ErrorMessage
-                  name="password"
-                  component="small"
-                  className="error"
-                />
-              </div>
+                <div className="form-field">
+                  <label htmlFor="email" className="form-label">Email</label>
+                  <Field
+                    as={InputText}
+                    id="email"
+                    name="email"
+                    placeholder="tu@email.com"
+                    className="form-input"
+                  />
+                  <ErrorMessage name="email" component="small" className="error" />
+                </div>
 
-              <div className="form-field">
-                <label htmlFor="role" className="form-label">Rol</label>
-                <Dropdown
-                  id="role"
-                  value={values.role}
-                  options={roles}
-                  onChange={(e) => setFieldValue("role", e.value)}
-                  placeholder="Selecciona un rol"
-                  className="form-dropdown"
-                />
-                <ErrorMessage name="role" component="small" className="error" />
-              </div>
+                <div className="form-field">
+                  <label htmlFor="password" className="form-label">Contraseña</label>
+                  <Field
+                    as={InputText}
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="Ingrese su contraseña"
+                    className="form-input"
+                  />
+                  <ErrorMessage name="password" component="small" className="error" />
+                </div>
 
-              <div className="register-actions">
-                <Button
-                  type="submit"
-                  label={isSubmitting ? "Registrando..." : "Registrarse"}
-                  className="p-button-rounded p-button-primary"
-                  disabled={isSubmitting}
-                />
-                <Button
-                  type="button"
-                  label="Volver al inicio"
-                   className="p-button-rounded p-button-secondary"
-                  onClick={() => navigate("/")}
-                />
-              </div>
-            </Form>
-          )}
-        </Formik>
-    </div>
+                <div className="form-field">
+                  <label htmlFor="role" className="form-label">Rol</label>
+                  <Dropdown
+                    id="role"
+                    value={values.role}
+                    options={roles}
+                    onChange={(e) => setFieldValue("role", e.value)}
+                    placeholder="Selecciona un rol"
+                    className="form-dropdown"
+                  />
+                  <ErrorMessage name="role" component="small" className="error" />
+                </div>
+
+                <div className="register-actions">
+                  <Button
+                    type="submit"
+                    label={isSubmitting ? "Registrando..." : "Registrarse"}
+                    className="p-button-rounded p-button-primary"
+                    disabled={isSubmitting}
+                  />
+                  <Button
+                    type="button"
+                    label="Volver al inicio"
+                    className="p-button-rounded p-button-secondary"
+                    onClick={() => navigate("/")}
+                  />
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </Card>
+        </div>
+    </>
   )
 }
 

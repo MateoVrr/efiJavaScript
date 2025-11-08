@@ -1,29 +1,39 @@
 body {
-  background-color: #1e1e1e;
+  background: url("../assets/pagina.avif") no-repeat center center fixed;
+  background-size: cover;
   font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 /* Contenedor principal */
 .login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 1rem;
+}
+
+/* Card PrimeReact */
+.login-card {
+  width: 100%;
   max-width: 400px;
-  margin: 5rem auto;
-  padding: 2.5rem;
-  background: rgba(40, 40, 40, 0.9);
+ background: linear-gradient(135deg, #3828ca, #1a1a1a);
   border-radius: 16px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-  text-align: center;
-  backdrop-filter: blur(6px);
-  color: #8496c7;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  transition: all 0.3s ease;
+  border: 1px solid #3f51b5;
+
 }
 
 
-
 /* Título */
-.login-container h2 {
-  margin-bottom: 1.5rem;
+.login-title {
   font-weight: 600;
-  color: #ffffff;
+  font-size: 1.6rem;
+  color: #e0e0e0;
 }
 
 /* Formulario */
@@ -31,19 +41,19 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.8rem;
+  padding-top: 1rem;
 }
 
 /* Campos */
 .form-field {
   display: flex;
   flex-direction: column;
-  text-align: left;
 }
 
-.form-field label {
+.form-label {
   font-size: 0.9rem;
   margin-bottom: 0.4rem;
-  color: #cccccc;
+  color: #bdbdbd;
 }
 
 /* Inputs PrimeReact */
@@ -52,9 +62,9 @@ body {
   border-radius: 8px;
   border: 1px solid #646cff;
   padding: 0.7rem;
-  transition: all 0.2s ease;
   background-color: #2a2a2a;
   color: #ffffff;
+  transition: all 0.2s ease;
 }
 
 .p-inputtext:focus {
@@ -67,24 +77,33 @@ body {
 .login-actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 1.5rem;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .p-button {
-  border-radius: 10px;
-  font-weight: 500;
-  padding: 0.8rem 1.5rem;
+  flex: 1;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.p-button-primary {
+  background-color: #3f51b5 !important;
+  border: none;
+}
+
+.p-button-primary:hover {
+  background-color: #5a6bf3 !important;
 }
 
 .p-button-secondary {
   background-color: #444 !important;
-  border: none !important;
-  color: #fff !important;
-  margin-left: 20px;
+  border: none;
 }
 
 .p-button-secondary:hover {
-  background-color: #5a5a5a !important;
+  background-color: #666 !important;
 }
 
 /* Errores */
@@ -92,4 +111,20 @@ body {
   color: #ff6b6b;
   font-size: 0.8rem;
   margin-top: 0.2rem;
+}
+
+/* ✅ Responsive */
+@media (max-width: 480px) {
+  .login-card {
+    max-width: 90%;
+    padding: 1.5rem;
+  }
+
+  .login-actions {
+    flex-direction: column;
+  }
+
+  .p-button {
+    width: 100%;
+  }
 }

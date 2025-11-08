@@ -56,7 +56,7 @@ function CrearReview() {
   }
 
   return (
-    <div className="posts-container">
+    <div className="posts-container page-background">
       <Card title={`Crear nueva Review para este Post`} className="posts-card">
         <Formik
           initialValues={{ content: "" }}

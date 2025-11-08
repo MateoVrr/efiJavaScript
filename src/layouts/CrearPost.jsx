@@ -61,7 +61,7 @@ function CrearPost({ autoRedirect = true, onPostCreado }) {
   }
 
   return (
-    <div className="posts-container">
+    <div className="posts-container  page-background">
       <Card title="Crear nuevo Post" className="posts-card">
         <Formik
           initialValues={{ title: "", content: "" }}
