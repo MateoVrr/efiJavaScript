@@ -89,6 +89,7 @@ const PostsList = () => {
 
 return (
 <div className="list-section">
+  <CrearPost onPostCreado={cargarPosts} />
   <Card title="Listado de Posts" className="posts-card">
     {posts.length === 0 ? (
       <p className="no-data">No hay posts registrados</p>
