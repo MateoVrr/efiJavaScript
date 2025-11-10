@@ -97,13 +97,13 @@ return (
       <div className="post-grid">
         {posts.map((post) => (
           <div className="post-card" key={post.id}>
-            <h3>{post.title}</h3>
-            <p className="post-content">{post.content}</p>
+            <h3>{post.titulo}</h3>
+            <p className="post-content">{post.contenido}</p>
 
             <div className="post-footer">
               <span className="post-author">✍️ {post.author}</span>
               <span className="post-date">
-                📅 {new Date(post.date).toLocaleDateString()}
+                📅 {new Date(post.fecha_creacion).toLocaleDateString()}
               </span>
             </div>
 

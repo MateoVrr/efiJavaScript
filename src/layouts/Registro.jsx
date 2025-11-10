@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom"
 import "../styles/Registro.css"
 
 const validationSchema = Yup.object({
-  name: Yup.string()
+  nombre: Yup.string()
     .min(4, "El nombre es demasiado corto")
     .required("El nombre es obligatorio"),
   email: Yup.string()
@@ -23,7 +23,7 @@ const validationSchema = Yup.object({
 })
 
 const roles = [
-  { label: "Usuario", value: "usuario" },
+  { label: "Usuario", value: "user" },
   { label: "Administrador", value: "admin" },
 ]
 
@@ -66,7 +66,7 @@ function Registro() {
         <Card className="register-card" title={<span className="register-title">Crear cuenta</span>}>
           <Formik
             initialValues={{
-              name: "",
+              nombre: "",
               email: "",
               password: "",
               role: "",
@@ -81,11 +81,11 @@ function Registro() {
                   <Field
                     as={InputText}
                     id="name"
-                    name="name"
+                    name="nombre"
                     placeholder="Tu nombre completo"
                     className="form-input"
                   />
-                  <ErrorMessage name="name" component="small" className="error" />
+                  <ErrorMessage name="nombre" component="small" className="error" />
                 </div>
 
                 <div className="form-field">

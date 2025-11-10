@@ -26,7 +26,7 @@ function Navbar() {
       {user && (
         <div className="navbar-right">
           <span className="navbar-user">
-            <i className="pi pi-user"></i> {user.name}
+            <i className="pi pi-user"></i> {user.nombre}
           </span>
           <Button
             label="Cerrar sesión"

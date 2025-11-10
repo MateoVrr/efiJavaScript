@@ -31,8 +31,9 @@ function CrearPost({ autoRedirect = true, onPostCreado }) {
 
   
       const response = await createPost(token, {
-        ...values,
-        author: user?.name || "Anónimo",
+        titulo: values.title,
+        contenido: values.content,
+  
       })
 
       if (response && !response.error) {
