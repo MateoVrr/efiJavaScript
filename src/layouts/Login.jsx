@@ -26,26 +26,27 @@ function Login() {
         body: JSON.stringify(values),
       })
 
-      if (response.ok) {
-        const data = await response.json()
-        saveToken(data.access_token)
-        toast.success("Inicio de sesión exitoso")
-        Swal.fire({
-          title: "Bienvenido",
-          text: "Inicio de sesión exitoso",
-          icon: "success",
-          timer: 1800,
-          showConfirmButton: false,
-        })
-        resetForm()
-        setTimeout(() => navigate("/"), 1800)
-      } else {
-        Swal.fire("Error", "Usuario o contraseña incorrectos", "error")
+     if (response.ok) {
+      const data = await response.json()
+      saveToken(data.access_token)
+      toast.success("Inicio de sesión exitoso")
+      Swal.fire({
+        title: "Bienvenido",
+        text: "Inicio de sesión exitoso",
+        icon: "success",
+        timer: 1800,
+        showConfirmButton: false,
+      })
+      resetForm()
+      setTimeout(() => navigate("/"), 1800)
       }
-    } catch (error) {
-      toast.error("Error al conectar con el servidor")
-    }
-  }
+      else {
+              Swal.fire("Error", "Usuario o contraseña incorrectos", "error")
+            }
+          } catch (error) {
+            toast.error("Error al conectar con el servidor")
+          }
+        }
 
   return (
     <div className="login-container">

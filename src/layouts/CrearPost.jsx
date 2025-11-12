@@ -4,9 +4,11 @@ import { Card } from "primereact/card"
 import { InputText } from "primereact/inputtext"
 import { InputTextarea } from "primereact/inputtextarea"
 import { Button } from "primereact/button"
+import { Dropdown } from "primereact/dropdown"
 import { toast } from "react-toastify"
 import Swal from "sweetalert2"
 import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
 import { useAuth } from "../context/AuthContext"
 import { createPost } from "../services/posts"
 import "../styles/PostsList.css"
@@ -29,11 +31,9 @@ function CrearPost({ autoRedirect = true, onPostCreado }) {
         return
       }
 
-  
       const response = await createPost(token, {
         titulo: values.title,
         contenido: values.content,
-  
       })
 
       if (response && !response.error) {
@@ -44,14 +44,9 @@ function CrearPost({ autoRedirect = true, onPostCreado }) {
           showConfirmButton: false,
         })
         toast.success("Post creado correctamente")
-
         if (onPostCreado) onPostCreado()
-
         resetForm()
-        
-        if (autoRedirect) {
-          setTimeout(() => navigate("/posts"), 2000)
-        }
+        if (autoRedirect) setTimeout(() => navigate("/posts"), 2000)
       } else {
         toast.error("Error al crear el post")
       }
@@ -62,10 +57,10 @@ function CrearPost({ autoRedirect = true, onPostCreado }) {
   }
 
   return (
-    <div className="posts-container  page-background">
+    <div className="posts-container page-background">
       <Card title="Crear nuevo Post" className="posts-card">
         <Formik
-          initialValues={{ title: "", content: "" }}
+          initialValues={{ title: "", content: "",}}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >

@@ -31,10 +31,36 @@ export async function updateReview(token, id, data) {
   return res.json();
 }
 
+export async function getReviewById(token, id) {
+  const res = await fetch(`${API}/reviews/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!res.ok) {
+    throw new Error("Error al obtener la review");
+  }
+
+  return res.json();
+}
+
+
 export async function deleteReview(token, id) {
   const res = await fetch(`${API}/reviews/${id}`, {
     method: "DELETE",
-    headers: { Authorization: `Bearer ${token}` }
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   });
+
+  if (res.status === 204) {
+    return { message: "Review eliminada correctamente" };
+  }
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || "Error al eliminar review");
+  }
+
   return res.json();
 }

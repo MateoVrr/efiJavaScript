@@ -33,8 +33,8 @@ function EditarPost() {
         if (!res.ok) throw new Error("Error al cargar el post")
 
         const data = await res.json()
-        setTitle(data.title)
-        setContent(data.content)
+        setTitle(data.titulo)
+        setContent(data.contenido)
       } catch (err) {
         Swal.fire("Error", "No se pudo cargar el post", "error")
         navigate("/posts")
@@ -59,7 +59,7 @@ function EditarPost() {
 
     setLoading(true)
     try {
-      await updatePost(token, id, { title, content })
+      await updatePost(token, id, { titulo: title, contenido: content })
       Swal.fire("Guardado", "El post fue actualizado correctamente", "success")
       navigate("/posts")
     } catch {

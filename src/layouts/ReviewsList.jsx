@@ -23,22 +23,26 @@ const ReviewsList = () => {
   }, [])
 
   const borrarReview = async (id) => {
-    Swal.fire({
-      title: "¿Seguro que quieres eliminar esta review?",
-      text: "Esta acción no se puede deshacer",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar",
-    }).then(async (action) => {
-      if (action.isConfirmed) {
-        const token = localStorage.getItem("token")
-        await deleteReview(token, id)
-        cargarReviews()
-        Swal.fire("Eliminada", "La review fue eliminada correctamente", "success")
+  Swal.fire({
+    title: "¿Seguro que quieres eliminar esta review?",
+    text: "Esta acción no se puede deshacer",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+  }).then(async (action) => {
+    if (action.isConfirmed) {
+      try {
+        const token = localStorage.getItem("token");
+        await deleteReview(token, id);
+        await cargarReviews();
+        Swal.fire("Eliminada", "La review fue eliminada correctamente", "success");
+      } catch (error) {
+        Swal.fire("Error", "No puedes eliminar esta review", "error");
       }
-    })
-  }
+    }
+  });
+};
 
   const accionesTemplate = (row) => (
     <div>
@@ -59,15 +63,15 @@ const ReviewsList = () => {
 
   return (
     <div className="posts-container">
-      <Card title="Listado de Reviews" className="posts-card">
+      <Card title="Reviews" className="posts-card">
         <DataTable
           value={reviews}
           className="posts-table"
           emptyMessage={<p className="no-data">No hay reviews registradas</p>}
         >
-          <Column field="post_title" header="Título del Post" />
-          <Column field="post_author" header="Autor del Post" />
-          <Column field="comment" header="Comentario" />
+          <Column field="post.titulo" header="Título del Post" />
+          <Column field="usuario.nombre" header="Autor del comentario" />
+          <Column field="texto" header="Comentario" />
           <Column header="Acciones" body={accionesTemplate} />
         </DataTable>
       </Card>

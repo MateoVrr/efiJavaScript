@@ -46,7 +46,7 @@ const PostsList = () => {
           await cargarPosts()
           Swal.fire("Eliminado", "El post fue eliminado correctamente", "success")
         } catch (error) {
-          Swal.fire("Error", "No se pudo eliminar el post", "error")
+          Swal.fire("Error", "No puedes eliminar el post", "error")
         }
       }
     })

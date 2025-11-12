@@ -6,9 +6,10 @@ import { Button } from "primereact/button"
 import { toast } from "react-toastify"
 import Swal from "sweetalert2"
 import { useNavigate, useParams } from "react-router-dom"
+import { useEffect, useState } from "react"
 import "../styles/PostsList.css"
 import { useAuth } from "../context/AuthContext"
-import { createReview } from "../services/reviews"
+import { createReview, getReviewById, updateReview } from "../services/reviews"
 
 const validationSchema = Yup.object({
   content: Yup.string().required("El contenido es obligatorio"),
@@ -16,50 +17,57 @@ const validationSchema = Yup.object({
 
 function CrearReview() {
   const navigate = useNavigate()
-  const { id } = useParams()
-  const { user } = useAuth() 
+  const { id, review_id } = useParams() // ← id del post y de la review
+  const { user } = useAuth()
+  const [initialValues, setInitialValues] = useState({ content: "" })
+  const [isEdit, setIsEdit] = useState(false)
+
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    if (review_id && token) {
+      // Si hay review_id, estamos en modo edición
+      setIsEdit(true)
+      getReviewById(token, review_id)
+        .then((review) => {
+          setInitialValues({ content: review.texto })
+        })
+        .catch(() => {
+          toast.error("No se pudo cargar la review")
+        })
+    }
+  }, [review_id])
 
   const handleSubmit = async (values, { resetForm }) => {
+    const token = localStorage.getItem("token")
+    if (!token) {
+      toast.error("No estás autenticado. Iniciá sesión para continuar.")
+      navigate("/login")
+      return
+    }
+
     try {
-      const token = localStorage.getItem("token") 
-      if (!token) {
-        toast.error("No estás autenticado. Iniciá sesión para continuar.")
-        navigate("/login")
-        return
-      }
-
-      const body = {
-        comment: values.content,
-        post_id: Number(id),
-        rating: 5,
-        user_id: user?.id || null,
-      }
-
-      const response = await createReview(token, body)
-
-      if (response) {
-        Swal.fire({
-          title: "Review creada con éxito",
-          icon: "success",
-          timer: 2000,
-          showConfirmButton: false,
-        })
-        toast.success("Review creada correctamente")
-        resetForm()
-        setTimeout(() => navigate("/reviews"), 2000)
+      if (isEdit) {
+        await updateReview(token, review_id, { texto: values.content })
+        Swal.fire("Éxito", "Review actualizada correctamente", "success")
       } else {
-        toast.error("Hubo un error al crear la review")
+        const body = { texto: values.content, post_id: Number(id) }
+        await createReview(token, body)
+        Swal.fire("Éxito", "Review creada correctamente", "success")
       }
+
+      resetForm()
+      setTimeout(() => navigate("/reviews"), 1500)
     } catch (error) {
-      toast.error("Error en el servidor")
+      toast.error("Error al guardar la review")
     }
   }
 
   return (
     <div className="posts-container page-background">
-      <Card title={`Crear nueva Review para este Post`} className="posts-card">
+      <Card title={isEdit ? "Editar Review" : "Crear nueva Review"} className="posts-card">
         <Formik
-          initialValues={{ content: "" }}
+          enableReinitialize // 👈 esto permite que el form se actualice al cambiar initialValues
+          initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
@@ -74,7 +82,7 @@ function CrearReview() {
               <div className="posts-actions">
                 <Button
                   type="submit"
-                  label={isSubmitting ? "Creando..." : "Crear Review"}
+                  label={isSubmitting ? "Guardando..." : isEdit ? "Actualizar Review" : "Crear Review"}
                 />
               </div>
             </Form>

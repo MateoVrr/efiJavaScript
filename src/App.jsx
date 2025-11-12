@@ -7,7 +7,7 @@ import ReviewsList from './layouts/ReviewsList'
 import PostsList from './layouts/PostsList'
 import CrearReview from './layouts/CrearReview'
 import EditarPost from './layouts/EditarPost'
-import EditarReview from './layouts/EditarReview' 
+import EditarReview from './layouts/EditarReview'
 import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
@@ -25,6 +25,7 @@ function App() {
           </ProtectedRoute>
         }
       />
+
       <Route
         path='/reviews'
         element={
@@ -33,6 +34,7 @@ function App() {
           </ProtectedRoute>
         }
       />
+
       <Route
         path='/posts/:id/reviews/nueva'
         element={
@@ -41,6 +43,7 @@ function App() {
           </ProtectedRoute>
         }
       />
+
       <Route
         path='/editar-post/:id'
         element={
@@ -49,7 +52,7 @@ function App() {
           </ProtectedRoute>
         }
       />
-     
+
       <Route
         path='/editar-review/:id'
         element={

@@ -30,8 +30,16 @@ export async function deletePost(token, id) {
       Authorization: `Bearer ${token}`
     }
   });
+  if (res.status === 204) {
+    return { message: "Post eliminado correctamente" };
+  }
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message);
+  }
   return res.json();
 }
+
 
 export async function updatePost(token, id, data) {
   const res = await fetch(`${API}/posts/${id}`, {
