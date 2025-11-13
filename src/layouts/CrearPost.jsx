@@ -9,18 +9,35 @@ import { toast } from "react-toastify"
 import Swal from "sweetalert2"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { useAuth } from "../context/AuthContext"
 import { createPost } from "../services/posts"
+import { getCategorias } from "../services/categorias"
 import "../styles/PostsList.css"
 
 const validationSchema = Yup.object({
   title: Yup.string().required("El título es obligatorio"),
   content: Yup.string().required("El contenido es obligatorio"),
+  categoria: Yup.object().required("Debes seleccionar una categoría"),
 })
 
 function CrearPost({ autoRedirect = true, onPostCreado }) {
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const [categorias, setCategorias] = useState([])
+
+  
+  const cargarCategorias = async () => {
+    try {
+      const token = localStorage.getItem("token")
+      if (!token) return
+      const data = await getCategorias(token)
+      setCategorias(data || [])
+    } catch (error) {
+      console.error("Error cargando categorías:", error)
+    }
+  }
+
+  useEffect(() => {
+    cargarCategorias()
+  }, [])
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
@@ -34,6 +51,7 @@ function CrearPost({ autoRedirect = true, onPostCreado }) {
       const response = await createPost(token, {
         titulo: values.title,
         contenido: values.content,
+        categoria_id: values.categoria.id,
       })
 
       if (response && !response.error) {
@@ -60,11 +78,11 @@ function CrearPost({ autoRedirect = true, onPostCreado }) {
     <div className="posts-container page-background">
       <Card title="Crear nuevo Post" className="posts-card">
         <Formik
-          initialValues={{ title: "", content: "",}}
+          initialValues={{ title: "", content: "", categoria: null }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {({ isSubmitting }) => (
+          {({ values, setFieldValue, isSubmitting }) => (
             <Form className="login-form">
               <div className="form-field">
                 <label htmlFor="title">Título</label>
@@ -82,6 +100,19 @@ function CrearPost({ autoRedirect = true, onPostCreado }) {
                   autoResize
                 />
                 <ErrorMessage name="content" component="small" className="error" />
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="categoria">Categoría</label>
+                <Dropdown
+                  id="categoria"
+                  value={values.categoria}
+                  options={categorias}
+                  onChange={(e) => setFieldValue("categoria", e.value)}
+                  optionLabel="nombre"
+                  placeholder="Selecciona una categoría"
+                />
+                <ErrorMessage name="categoria" component="small" className="error" />
               </div>
 
               <div className="posts-actions">

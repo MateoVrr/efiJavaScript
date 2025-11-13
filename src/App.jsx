@@ -9,6 +9,7 @@ import CrearReview from './layouts/CrearReview'
 import EditarPost from './layouts/EditarPost'
 import EditarReview from './layouts/EditarReview'
 import ProtectedRoute from './components/ProtectedRoute'
+import AdminPanel from './layouts/AdminPanel'
 
 function App() {
   return (
@@ -16,6 +17,16 @@ function App() {
       <Route path='/' element={<Home />} />
       <Route path='/registro' element={<Registro />} />
       <Route path='/login' element={<Login />} />
+
+
+      <Route
+        path='/admin'
+        element={
+          <ProtectedRoute>
+            <AdminPanel />
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path='/posts'

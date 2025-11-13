@@ -17,7 +17,7 @@ const validationSchema = Yup.object({
 
 function CrearReview() {
   const navigate = useNavigate()
-  const { id, review_id } = useParams() // ← id del post y de la review
+  const { id, review_id } = useParams()
   const { user } = useAuth()
   const [initialValues, setInitialValues] = useState({ content: "" })
   const [isEdit, setIsEdit] = useState(false)
@@ -25,7 +25,6 @@ function CrearReview() {
   useEffect(() => {
     const token = localStorage.getItem("token")
     if (review_id && token) {
-      // Si hay review_id, estamos en modo edición
       setIsEdit(true)
       getReviewById(token, review_id)
         .then((review) => {
@@ -66,7 +65,7 @@ function CrearReview() {
     <div className="posts-container page-background">
       <Card title={isEdit ? "Editar Review" : "Crear nueva Review"} className="posts-card">
         <Formik
-          enableReinitialize // 👈 esto permite que el form se actualice al cambiar initialValues
+          enableReinitialize 
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
