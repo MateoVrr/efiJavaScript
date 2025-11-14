@@ -24,7 +24,6 @@ Mateo Torres: [@MateoVrr](https://github.com/MateoVrr)
 3.  Preparar y ejecutar el frontend
 4.  Conectar frontend ⇄ backend
 5.  Endpoints principales
-6.  Notas y troubleshooting
 
 ## 1) Requisitos
 
@@ -95,23 +94,10 @@ cd efiJavaScript
 npm install
 ```
 
-3.  Crear archivo `.env`:
-
-```{=html}
-<!-- -->
-```
-    VITE_API_BASE_URL=http://127.0.0.1:5000
-
-4.  Ejecutar en desarrollo:
+3.  Ejecutar en desarrollo:
 
 ``` bash
 npm run dev
-```
-
-5.  Compilar para producción:
-
-``` bash
-npm run build
 ```
 
 ------------------------------------------------------------------------
@@ -147,5 +133,47 @@ fetch(`${API_BASE}/login`, {
 -   POST /posts
 -   PUT /posts/`<id>`{=html}
 -   DELETE /posts/`<id>`{=html}
+
+------------------------------------------------------------------------
+
+## ACLARACION: Acceso a la zona de administración (creación de categorías)
+
+Para crear categorías, el usuario debe contar con **rol
+administrador**.\
+El proceso es el siguiente:
+
+### **1. Registrarse como administrador**
+
+Durante el registro, se debe enviar el campo:
+
+    role: "admin"
+
+Solo estos usuarios reciben permisos administrativos.
+
+### **2. Iniciar sesión**
+
+El login devuelve un **token JWT** que incluye el rol del usuario.
+
+### **3. Acceder al panel de administración**
+
+Para ingresar a la zona exclusiva de administradores, se debe navegar a
+la ruta:
+
+    /admin
+
+Ejemplo en entorno local:
+
+    http://localhost:5173/admin
+
+Esta vista está protegida:\
+✔️ si el usuario tiene rol **admin**, puede acceder\
+❌ si no lo tiene, se bloquea el acceso
+
+### **4. Crear categorías**
+
+Dentro del panel `/admin` se encuentra la sección donde los
+administradores pueden crear nuevas categorías.\
+Los usuarios sin rol admin no pueden acceder ni interactuar con esta
+funcionalidad.
 
 ------------------------------------------------------------------------
