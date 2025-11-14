@@ -19,8 +19,6 @@ Mateo Torres: [@MateoVrr](https://github.com/MateoVrr)
 
 ---
 
-## Contenido del README
-
 1.  Requisitos
 2.  Preparar y ejecutar la API
 3.  Preparar y ejecutar el frontend
