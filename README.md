@@ -125,14 +125,14 @@ fetch(`${API_BASE}/login`, {
 -   POST /register
 -   POST /login
 -   GET /users
--   GET /users/`<id>`{=html}
--   PUT /users/`<id>`{=html}
--   DELETE /users/`<id>`{=html}
+-   GET /users/`<id>`
+-   PUT /users/`<id>`
+-   DELETE /users/`<id>`
 -   GET /posts
--   GET /posts/`<id>`{=html}
+-   GET /posts/`<id>`
 -   POST /posts
--   PUT /posts/`<id>`{=html}
--   DELETE /posts/`<id>`{=html}
+-   PUT /posts/`<id>`
+-   DELETE /posts/`<id>`
 
 ------------------------------------------------------------------------
 
