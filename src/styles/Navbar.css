@@ -53,22 +53,30 @@
   color: #8a8dff;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 480px) {
   .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1rem;
+    padding: 0.8rem 1rem;
+    gap: 0.8rem;
   }
 
   .navbar-left {
-    flex-wrap: wrap;
-    gap: 1rem;
+    width: 100%;
+    justify-content: center;
+    gap: 1.2rem;
   }
 
   .navbar-right {
+    flex-direction: column;
     width: 100%;
-    justify-content: space-between;
-    margin-top: 0.8rem;
+    gap: 0.6rem;
+  }
+
+  .navbar-user {
+    font-size: 0.9rem;
+  }
+
+  .p-button-danger {
+    width: 100%; /* Logout ocupa todo el ancho en mobile */
+    justify-content: center;
   }
 }

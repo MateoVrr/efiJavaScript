@@ -8,6 +8,9 @@ import Swal from "sweetalert2"
 import { getReviews, deleteReview } from "../services/reviews"
 import "../styles/PostsList.css"
 
+
+
+
 const ReviewsList = () => {
   const [reviews, setReviews] = useState([])
   const navigate = useNavigate()
@@ -46,7 +49,7 @@ const ReviewsList = () => {
 
   const accionesTemplate = (row) => (
     <div>
-      <Button
+      <Button 
         icon="pi pi-trash"
         label="Eliminar"
         onClick={() => borrarReview(row.id)}

@@ -124,3 +124,82 @@
   justify-content: space-around;
   gap: 0.5rem;
 }
+
+@media (max-width: 768px) {
+  .posts-content {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  .posts-card {
+    padding: 1rem !important;
+  }
+
+  .posts-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .posts-table {
+    min-width: 600px;
+  }
+}
+
+@media (max-width: 480px) {
+  .posts-page {
+    padding: 2rem 0.5rem;
+  }
+
+  .posts-content {
+    padding: 1rem;
+  }
+
+  .create-section,
+  .list-section {
+    padding: 0.5rem;
+  }
+}
+
+/* Esto evita scroll horizontal */
+body, html {
+  overflow-x: hidden;
+}
+
+.posts-page {
+  background-attachment: scroll;
+}
+
+@media (max-width: 480px) {
+  .post-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    width: 100%;
+  }
+
+  .post-actions button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .posts-card {
+    overflow-x: auto !important;
+  }
+}
+
+/* Asegurar que la tabla tenga un ancho mínimo y no colapse */
+@media (max-width: 768px) {
+  .posts-table {
+    min-width: 650px !important;
+    display: block;
+  }
+}
+
+/* El wrapper interno de PrimeReact necesita scroll */
+@media (max-width: 768px) {
+  .p-datatable-wrapper {
+    overflow-x: auto !important;
+  }
+}

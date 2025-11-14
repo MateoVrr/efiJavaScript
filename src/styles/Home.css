@@ -42,3 +42,21 @@
 .home-register:hover {
   background-color: #45a049;
 }
+
+
+@media (max-width: 480px) {
+  .home-container {
+    margin-top: 2rem;
+    padding: 2rem 1rem;
+    width: 92%;
+  }
+
+  .home-title {
+    font-size: 2rem;
+  }
+
+  .home-button {
+    width: 90%;
+    font-size: 0.95rem;
+  }
+}

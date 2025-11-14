@@ -106,15 +106,19 @@ body {
   margin-top: 0.2rem;
 }
 
-/* Responsividad */
 @media (max-width: 480px) {
   .register-container {
-    margin: 2rem 1rem;
-    padding: 1.5rem;
+    padding: 1.8rem 1.3rem;
+    margin: 0; 
+    width: 92%;
   }
 
   .register-actions {
     flex-direction: column;
     gap: 1rem;
+  }
+
+  .p-button {
+    width: 100%;
   }
 }

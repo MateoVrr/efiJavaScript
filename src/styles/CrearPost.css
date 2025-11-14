@@ -80,3 +80,19 @@
 .posts-actions button:hover {
   background-color: #747bff;
 }
+
+@media (max-width: 480px) {
+  .posts-container {
+    width: 90%;
+    margin: 2rem auto;
+    padding: 1.3rem;
+  }
+
+  .posts-actions button {
+    width: 100%;
+  }
+
+  .login-form {
+    gap: 1rem;
+  }
+}

@@ -113,7 +113,6 @@ body {
   margin-top: 0.2rem;
 }
 
-/* ✅ Responsive */
 @media (max-width: 480px) {
   .login-card {
     max-width: 90%;
