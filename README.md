@@ -1,7 +1,7 @@
 # EFI --- Aplicación full-stack (Frontend React + API Flask)
 
 **Descripción**\
-Proyecto de ejemplo que combina un frontend en JavaScript (React + Vite)
+Proyecto que combina un frontend en JavaScript (React + Vite)
 con una API REST desarrollada en Python (Flask). El frontend consume la
 API para autenticación y recursos.
 
