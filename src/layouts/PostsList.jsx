@@ -8,9 +8,11 @@ import "../styles/PostsList.css"
 import CrearPost from "./CrearPost"
 
 const PostsList = () => {
+  // Estado para guardar los posts
   const [posts, setPosts] = useState([])
   const navigate = useNavigate()
 
+  // Función para obtener los posts desde la API
   const cargarPosts = async () => {
     try {
       const token = localStorage.getItem("token")
@@ -22,10 +24,12 @@ const PostsList = () => {
     }
   }
 
+  // Carga los posts al iniciar el componente
   useEffect(() => {
     cargarPosts()
   }, [])
 
+  // Maneja la eliminación de un post con confirmación
   const borrarPost = async (id) => {
     Swal.fire({
       title: "¿Seguro que quieres eliminar este post?",
@@ -39,7 +43,7 @@ const PostsList = () => {
         try {
           const token = localStorage.getItem("token")
           await deletePost(token, id)
-          await cargarPosts()
+          await cargarPosts() // Recarga la lista
           Swal.fire("Eliminado", "El post fue eliminado correctamente", "success")
         } catch (error) {
           Swal.fire("Error", "No puedes eliminar el post", "error")
@@ -50,17 +54,25 @@ const PostsList = () => {
 
   return (
     <div className="list-section">
+      {/* Formulario para crear posts */}
       <CrearPost onPostCreado={cargarPosts} />
-      <Card title="Listado de Posts" className="posts-card">
+      
+      {/* Contenedor principal */}
+      <Card title="Todos los Posts" className="posts-card">
+        {/* Mensaje si no hay posts */}
         {posts.length === 0 ? (
           <p className="no-data">No hay posts registrados</p>
         ) : (
+          // Tarjetas de cada post
           <div className="post-grid">
             {posts.map((post) => (
               <div className="post-card" key={post.id}>
+                
+                {/* Título y contenido del post */}
                 <h3 className="post-title">{post.titulo}</h3>
                 <p className="post-content">{post.contenido}</p>
 
+                {/* Información adicional del post */}
                 <div className="post-footer">
                   <span className="post-author">
                     <i className="pi pi-user"></i> {post.author}
@@ -73,6 +85,7 @@ const PostsList = () => {
                   </span>
                 </div>
 
+                {/* Botones de acciones del post */}
                 <div className="post-actions">
                   <Button
                     icon="pi pi-pencil"

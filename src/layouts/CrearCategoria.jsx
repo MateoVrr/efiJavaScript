@@ -11,6 +11,7 @@ function CrearCategoria({ onCategoriaCreada }) {
   const [descripcion, setDescripcion] = useState("")
   const [loading, setLoading] = useState(false)
 
+  // Maneja el envío del formulario y creación de la categoría
   const handleSubmit = async (e) => {
     e.preventDefault()
     const token = localStorage.getItem("token")
@@ -19,6 +20,7 @@ function CrearCategoria({ onCategoriaCreada }) {
       return
     }
 
+    // Validación básica
     if (!nombre.trim()) {
       toast.error("El nombre de la categoría es obligatorio")
       return
@@ -26,11 +28,15 @@ function CrearCategoria({ onCategoriaCreada }) {
 
     setLoading(true)
     try {
+      // Llama al servicio para crear la categoría
       const nuevaCategoria = await createCategoria(token, { nombre, descripcion })
+
       if (nuevaCategoria && nuevaCategoria.id) {
         toast.success("Categoría creada correctamente")
         setNombre("")
         setDescripcion("")
+        
+        // Notifica al componente padre
         if (onCategoriaCreada) onCategoriaCreada(nuevaCategoria)
       } else {
         toast.error("Error al crear la categoría")
@@ -45,7 +51,10 @@ function CrearCategoria({ onCategoriaCreada }) {
 
   return (
     <Card title="Crear nueva categoría">
+      {/* Formulario con estilos */}
       <form onSubmit={handleSubmit} className="crear-categoria-form">
+
+        {/* Campo para el nombre */}
         <div className="form-field">
           <label>Nombre</label>
           <InputText
@@ -55,6 +64,7 @@ function CrearCategoria({ onCategoriaCreada }) {
           />
         </div>
 
+        {/* Campo opcional para descripción */}
         <div className="form-field">
           <label>Descripción (opcional)</label>
           <InputTextarea
@@ -66,6 +76,7 @@ function CrearCategoria({ onCategoriaCreada }) {
           />
         </div>
 
+        {/* Botón de acción */}
         <Button
           type="submit"
           label={loading ? "Creando..." : "Crear Categoría"}

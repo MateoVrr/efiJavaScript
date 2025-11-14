@@ -9,16 +9,19 @@ import { updatePost } from "../services/posts"
 import "../styles/EditarPost.css"
 
 function EditarPost() {
-  const { id } = useParams()
-  const navigate = useNavigate()
-  const [title, setTitle] = useState("")
-  const [content, setContent] = useState("")
-  const [loading, setLoading] = useState(false)
+  const { id } = useParams()        
+  const navigate = useNavigate()    
+  const [title, setTitle] = useState("")      
+  const [content, setContent] = useState("")  
+  const [loading, setLoading] = useState(false) 
 
 
+  // Al cargar la página, trae los datos del post a editar
   useEffect(() => {
     const cargarPost = async () => {
       const token = localStorage.getItem("token")
+
+      // Si no hay token, manda al login
       if (!token) {
         Swal.fire("Error", "No estás autenticado", "error")
         navigate("/login")
@@ -26,6 +29,7 @@ function EditarPost() {
       }
 
       try {
+        // Trae el post desde el backend
         const res = await fetch(`http://localhost:5000/posts/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
@@ -33,6 +37,8 @@ function EditarPost() {
         if (!res.ok) throw new Error("Error al cargar el post")
 
         const data = await res.json()
+
+        // Rellena los campos con los datos actuales del post
         setTitle(data.titulo)
         setContent(data.contenido)
       } catch (err) {
@@ -44,24 +50,31 @@ function EditarPost() {
     cargarPost()
   }, [id, navigate])
 
+
+  // Función para guardar los cambios del post
   const guardarCambios = async () => {
     const token = localStorage.getItem("token")
+
+    // Verifica autenticación
     if (!token) {
       Swal.fire("Error", "No estás autenticado", "error")
       navigate("/login")
       return
     }
 
+    // Valida que no haya campos vacíos
     if (!title.trim() || !content.trim()) {
       Swal.fire("Error", "Completa todos los campos antes de guardar", "warning")
       return
     }
 
     setLoading(true)
+
     try {
+      // Envía los cambios al backend
       await updatePost(token, id, { titulo: title, contenido: content })
       Swal.fire("Guardado", "El post fue actualizado correctamente", "success")
-      navigate("/posts")
+      navigate("/posts")   // Redirige a la lista de posts
     } catch {
       Swal.fire("Error", "No se pudo guardar el post", "error")
     } finally {
@@ -72,6 +85,8 @@ function EditarPost() {
   return (
     <div className="editarpost-container">
       <Card title="Editar Post" className="editarpost-card">
+
+        {/* Campo del título */}
         <div className="form-field">
           <label htmlFor="title">Título</label>
           <InputText
@@ -81,6 +96,7 @@ function EditarPost() {
           />
         </div>
 
+        {/* Campo del contenido */}
         <div className="form-field">
           <label htmlFor="content">Contenido</label>
           <InputTextarea
@@ -92,6 +108,7 @@ function EditarPost() {
           />
         </div>
 
+        {/* Botones de acción */}
         <div className="editarpost-actions">
           <Button
             label={loading ? "Guardando..." : "Guardar"}
@@ -104,6 +121,7 @@ function EditarPost() {
             onClick={() => navigate("/posts")}
           />
         </div>
+
       </Card>
     </div>
   )

@@ -4,7 +4,10 @@ import { jwtDecode } from "jwt-decode"
 const AuthContext = createContext(null)
 
 export const AuthProvider = ({ children }) => {
+  // Guarda el token y los datos del usuario
   const [token, setToken] = useState(localStorage.getItem("token"))
+
+  // Inicializa el usuario si hay un token guardado
   const [user, setUser] = useState(() => {
     const storedToken = localStorage.getItem("token")
     if (!storedToken) return null
@@ -22,6 +25,7 @@ export const AuthProvider = ({ children }) => {
     }
   })
 
+  // Guarda el token nuevo y actualiza la información del usuario
   const saveToken = (newToken) => {
     localStorage.setItem("token", newToken)
     setToken(newToken)
@@ -35,12 +39,14 @@ export const AuthProvider = ({ children }) => {
     })
   }
 
+  // Elimina los datos de sesión
   const logout = () => {
     localStorage.removeItem("token")
     setToken(null)
     setUser(null)
   }
 
+  // Verifica que el token siga siendo válido
   useEffect(() => {
     if (!token) return
     try {

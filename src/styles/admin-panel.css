@@ -1,0 +1,161 @@
+/* Fondo general del panel de administración (igual estructura que posts-page) */
+.admin-panel {
+  min-height: 100vh;
+  width: 100%;
+  background: url("/src/assets/fondo-admin.jpg") no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 4rem 1rem;
+  box-sizing: border-box;
+}
+
+/* Contenedor principal (similar a .posts-content) */
+.admin-content {
+  width: 100%;
+  max-width: 1100px;
+  background: rgba(20, 20, 20, 0.85);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  color: #fff;
+}
+
+/* Card principal similar a posts-card */
+.admin-card {
+  background: rgba(35, 35, 35, 0.85);
+  border-radius: 12px;
+  padding: 1.5rem;
+  color: #fff;
+}
+
+/* Título */
+.admin-card .p-card-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #a9b4ff;
+  text-align: center;
+}
+
+/* Formulario Crear Categoría (similar a create-section) */
+.crear-categoria-form {
+  background: rgba(35, 35, 35, 0.85);
+  padding: 1.5rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+  color: #fff;
+}
+
+.crear-categoria-form .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.crear-categoria-form label {
+  color: #d0d0ff;
+}
+
+/* Inputs estilo posts */
+.crear-categoria-form input,
+.crear-categoria-form textarea,
+.p-inputtext,
+.p-inputtextarea {
+  background: rgba(45, 45, 70, 0.5) !important;
+  border: 1px solid rgba(120, 120, 200, 0.4) !important;
+  padding: 0.7rem !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+  backdrop-filter: blur(6px);
+}
+
+.crear-categoria-form input:focus,
+.crear-categoria-form textarea:focus {
+  box-shadow: 0 0 8px rgba(150, 150, 255, 0.5) !important;
+}
+
+/* Botón estilo posts */
+.crear-categoria-form .p-button {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6574ff, #8f9bff) !important;
+  border: none !important;
+  color: #fff !important;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(50, 50, 100, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.crear-categoria-form .p-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(70, 70, 150, 0.5);
+}
+
+/* Lista de categorías (similar a list-section) */
+.categorias-list {
+  background: rgba(30, 30, 30, 0.85);
+  padding: 1.5rem;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  color: #fff;
+}
+
+.categorias-list ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.categorias-list li {
+  background: rgba(30, 30, 60, 0.7);
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  margin-bottom: 0.6rem;
+  color: #dfe1ff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s ease;
+}
+
+.categorias-list li:hover {
+  transform: translateY(-4px);
+}
+
+/* Texto vacío */
+.categorias-list p {
+  text-align: center;
+  color: #ccc;
+  padding: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-content {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  .admin-card {
+    padding: 1rem;
+  }
+
+  .crear-categoria-form,
+  .categorias-list {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-panel {
+    padding: 2rem 0.5rem;
+  }
+
+  .admin-content {
+    padding: 1rem;
+  }
+}

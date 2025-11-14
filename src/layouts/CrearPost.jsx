@@ -13,6 +13,7 @@ import { createPost } from "../services/posts"
 import { getCategorias } from "../services/categorias"
 import "../styles/PostsList.css"
 
+// Validación general del formulario
 const validationSchema = Yup.object({
   title: Yup.string().required("El título es obligatorio"),
   content: Yup.string().required("El contenido es obligatorio"),
@@ -23,7 +24,7 @@ function CrearPost({ autoRedirect = true, onPostCreado }) {
   const navigate = useNavigate()
   const [categorias, setCategorias] = useState([])
 
-  
+  // Carga inicial de categorías disponibles
   const cargarCategorias = async () => {
     try {
       const token = localStorage.getItem("token")
@@ -39,6 +40,7 @@ function CrearPost({ autoRedirect = true, onPostCreado }) {
     cargarCategorias()
   }, [])
 
+  // Maneja el envío del formulario y creación del post
   const handleSubmit = async (values, { resetForm }) => {
     try {
       const token = localStorage.getItem("token")
@@ -54,6 +56,7 @@ function CrearPost({ autoRedirect = true, onPostCreado }) {
         categoria_id: values.categoria.id,
       })
 
+      // Notificaciones y acciones tras crear el post
       if (response && !response.error) {
         Swal.fire({
           title: "Post creado con éxito",
@@ -76,7 +79,9 @@ function CrearPost({ autoRedirect = true, onPostCreado }) {
 
   return (
     <div className="posts-container page-background">
-      <Card title="Crear nuevo Post" className="posts-card">
+      <Card title="Postea Algo!" className="posts-card">
+
+        {/* Formulario de creación con Formik */}
         <Formik
           initialValues={{ title: "", content: "", categoria: null }}
           validationSchema={validationSchema}
@@ -84,12 +89,15 @@ function CrearPost({ autoRedirect = true, onPostCreado }) {
         >
           {({ values, setFieldValue, isSubmitting }) => (
             <Form className="login-form">
+
+              {/* Campo título */}
               <div className="form-field">
                 <label htmlFor="title">Título</label>
                 <Field as={InputText} id="title" name="title" />
                 <ErrorMessage name="title" component="small" className="error" />
               </div>
 
+              {/* Campo contenido */}
               <div className="form-field">
                 <label htmlFor="content">Contenido</label>
                 <Field
@@ -102,6 +110,7 @@ function CrearPost({ autoRedirect = true, onPostCreado }) {
                 <ErrorMessage name="content" component="small" className="error" />
               </div>
 
+              {/* Selector de categoría */}
               <div className="form-field">
                 <label htmlFor="categoria">Categoría</label>
                 <Dropdown
@@ -115,6 +124,7 @@ function CrearPost({ autoRedirect = true, onPostCreado }) {
                 <ErrorMessage name="categoria" component="small" className="error" />
               </div>
 
+              {/* Botón de acción */}
               <div className="posts-actions">
                 <Button
                   type="submit"
@@ -122,6 +132,7 @@ function CrearPost({ autoRedirect = true, onPostCreado }) {
                   disabled={isSubmitting}
                 />
               </div>
+
             </Form>
           )}
         </Formik>

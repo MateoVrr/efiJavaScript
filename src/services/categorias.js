@@ -1,6 +1,6 @@
 const API = "http://localhost:5000";
 
-// Obtener todas las categorías
+// Trae todas las categorías disponibles
 export async function getCategorias(token) {
   const res = await fetch(`${API}/categories`, {
     headers: { Authorization: `Bearer ${token}` },
@@ -9,7 +9,7 @@ export async function getCategorias(token) {
   return res.json()
 }
 
-// Crear una categoría (solo admin)
+// Crea una nueva categoría
 export async function createCategoria(token, data) {
   const res = await fetch(`${API}/categories`, {
     method: "POST",
@@ -23,7 +23,7 @@ export async function createCategoria(token, data) {
   return res.json()
 }
 
-// Actualizar categoría (solo admin)
+// Actualiza una categoría existente
 export async function updateCategoria(token, id, data) {
   const res = await fetch(`${API}/categories/${id}`, {
     method: "PUT",
@@ -37,7 +37,7 @@ export async function updateCategoria(token, id, data) {
   return res.json()
 }
 
-// Eliminar categoría (solo admin)
+// Elimina una categoría por su ID
 export async function deleteCategoria(token, id) {
   const res = await fetch(`${API}/categories/${id}`, {
     method: "DELETE",
@@ -46,10 +46,15 @@ export async function deleteCategoria(token, id) {
       Authorization: `Bearer ${token}`,
     },
   })
+
+  // Respuesta común cuando la API no envía contenido
   if (res.status === 204) return { message: "Categoría eliminada correctamente" }
+
+  // Manejo básico de errores
   if (!res.ok) {
     const errorData = await res.json().catch(() => ({}))
     throw new Error(errorData.message || "Error al eliminar categoría")
   }
+
   return res.json()
 }

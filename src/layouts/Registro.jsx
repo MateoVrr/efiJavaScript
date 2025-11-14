@@ -9,6 +9,7 @@ import Swal from "sweetalert2"
 import { useNavigate } from "react-router-dom"
 import "../styles/Registro.css"
 
+// Esquema de validación del formulario
 const validationSchema = Yup.object({
   nombre: Yup.string()
     .min(4, "El nombre es demasiado corto")
@@ -22,6 +23,7 @@ const validationSchema = Yup.object({
   role: Yup.string().required("Debes seleccionar un rol"),
 })
 
+// Opciones disponibles para elegir rol
 const roles = [
   { label: "Usuario", value: "user" },
   { label: "Administrador", value: "admin" },
@@ -30,6 +32,7 @@ const roles = [
 function Registro() {
   const navigate = useNavigate()
 
+  // Envía los datos del formulario al backend
   const handleSubmit = async (values, { resetForm }) => {
     try {
       const response = await fetch("http://localhost:5000/register", {
@@ -38,6 +41,7 @@ function Registro() {
         body: JSON.stringify(values),
       })
 
+      // Si todo sale bien, muestra alertas y redirige
       if (response.ok) {
         Swal.fire({
           title: "¡Registro exitoso!",
@@ -51,19 +55,23 @@ function Registro() {
         resetForm()
         setTimeout(() => navigate("/login"), 1800)
       } else {
+        // Muestra error del backend si ocurre
         const errData = await response.json().catch(() => ({}))
         toast.error(errData.message || "Error al registrar el usuario")
       }
     } catch (error) {
+      // Error si el servidor no responde
       toast.error("Error al conectar con el servidor")
     }
   }
 
   return (
     <>
-
+      {/* Contenedor principal del registro */}
       <div className="register-container">
         <Card className="register-card" title={<span className="register-title">Crear cuenta</span>}>
+
+          {/* Formulario manejado con Formik */}
           <Formik
             initialValues={{
               nombre: "",
@@ -76,6 +84,8 @@ function Registro() {
           >
             {({ isSubmitting, setFieldValue, values }) => (
               <Form className="register-form">
+                
+                {/* Campo nombre */}
                 <div className="form-field">
                   <label htmlFor="name" className="form-label">Nombre</label>
                   <Field
@@ -88,6 +98,7 @@ function Registro() {
                   <ErrorMessage name="nombre" component="small" className="error" />
                 </div>
 
+                {/* Campo email */}
                 <div className="form-field">
                   <label htmlFor="email" className="form-label">Email</label>
                   <Field
@@ -100,6 +111,7 @@ function Registro() {
                   <ErrorMessage name="email" component="small" className="error" />
                 </div>
 
+                {/* Campo contraseña */}
                 <div className="form-field">
                   <label htmlFor="password" className="form-label">Contraseña</label>
                   <Field
@@ -113,6 +125,7 @@ function Registro() {
                   <ErrorMessage name="password" component="small" className="error" />
                 </div>
 
+                {/* Selector de rol */}
                 <div className="form-field">
                   <label htmlFor="role" className="form-label">Rol</label>
                   <Dropdown
@@ -126,6 +139,7 @@ function Registro() {
                   <ErrorMessage name="role" component="small" className="error" />
                 </div>
 
+                {/* Botones de acción */}
                 <div className="register-actions">
                   <Button
                     type="submit"
@@ -140,11 +154,12 @@ function Registro() {
                     onClick={() => navigate("/")}
                   />
                 </div>
+
               </Form>
             )}
           </Formik>
         </Card>
-        </div>
+      </div>
     </>
   )
 }

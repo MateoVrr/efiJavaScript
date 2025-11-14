@@ -9,6 +9,7 @@ import { useAuth } from "../context/AuthContext"
 import Swal from "sweetalert2"
 import "../styles/Login.css"
 
+// Validación del formulario
 const validationSchema = Yup.object({
   email: Yup.string().email("Email inválido").required("El email es obligatorio"),
   password: Yup.string().required("La contraseña es obligatoria"),
@@ -16,42 +17,52 @@ const validationSchema = Yup.object({
 
 function Login() {
   const navigate = useNavigate()
-  const { saveToken } = useAuth()
+  const { saveToken } = useAuth() // Para guardar el token después del login
 
+  // Función que maneja el inicio de sesión
   const handleSubmit = async (values, { resetForm }) => {
     try {
+      // Envío de datos al backend
       const response = await fetch("http://localhost:5000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       })
 
-     if (response.ok) {
-      const data = await response.json()
-      saveToken(data.access_token)
+      // Si los datos son correctos, se guarda el token y se redirige
+      if (response.ok) {
+        const data = await response.json()
+        saveToken(data.access_token)
 
-      toast.success("Inicio de sesión exitoso")
-      Swal.fire({
-        title: "Bienvenido",
-        text: "Inicio de sesión exitoso",
-        icon: "success",
-        timer: 1800,
-        showConfirmButton: false,
-      })
-      resetForm()
-      setTimeout(() => navigate("/"), 1800)
-      }
+        toast.success("Inicio de sesión exitoso")
+
+        Swal.fire({
+          title: "Bienvenido",
+          text: "Inicio de sesión exitoso",
+          icon: "success",
+          timer: 1800,
+          showConfirmButton: false,
+        })
+
+        resetForm()
+        setTimeout(() => navigate("/"), 1800)
+      } 
+      // Si el backend responde error
       else {
-              Swal.fire("Error", "Usuario o contraseña incorrectos", "error")
-            }
-          } catch (error) {
-            toast.error("Error al conectar con el servidor")
-          }
-        }
+        Swal.fire("Error", "Usuario o contraseña incorrectos", "error")
+      }
+
+    } catch (error) {
+      // Error de conexión o servidor caído
+      toast.error("Error al conectar con el servidor")
+    }
+  }
 
   return (
     <div className="login-container">
       <Card className="login-card" title={<span className="login-title">Iniciar Sesión</span>}>
+        
+        {/* Formik maneja todo el formulario */}
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={validationSchema}
@@ -59,6 +70,8 @@ function Login() {
         >
           {({ isSubmitting }) => (
             <Form className="login-form">
+
+              {/* Campo Email */}
               <div className="form-field">
                 <label htmlFor="email" className="form-label">Email</label>
                 <Field
@@ -66,11 +79,11 @@ function Login() {
                   id="email"
                   name="email"
                   placeholder="tu@email.com"
-                  icon="pi pi-envelope"
                 />
                 <ErrorMessage name="email" component="small" className="error" />
               </div>
 
+              {/* Campo Password */}
               <div className="form-field">
                 <label htmlFor="password" className="form-label">Contraseña</label>
                 <Field
@@ -79,31 +92,31 @@ function Login() {
                   type="password"
                   name="password"
                   placeholder="Ingrese su contraseña"
-                  className="form-input"
-                  icon="pi pi-lock"
                 />
                 <ErrorMessage name="password" component="small" className="error" />
               </div>
 
+              {/* Botones del formulario */}
               <div className="login-actions">
                 <Button
                   type="submit"
                   label={isSubmitting ? "Ingresando..." : "Ingresar"}
-                  icon="pi pi-sign-in"
                   className="p-button-rounded p-button-primary"
                   disabled={isSubmitting}
                 />
+
                 <Button
                   type="button"
                   label="Volver al inicio"
-                  icon="pi pi-home"
                   className="p-button-rounded p-button-secondary"
                   onClick={() => navigate("/")}
                 />
               </div>
+
             </Form>
           )}
         </Formik>
+
       </Card>
     </div>
   )
